@@ -1,7 +1,5 @@
 package uppercase;
 
-import com.fasterxml.jackson.annotation.JsonClassDescription;
-
 public class Input {
 
   private String input;

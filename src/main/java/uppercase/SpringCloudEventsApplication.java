@@ -1,25 +1,8 @@
 package uppercase;
 
-import static org.springframework.cloud.function.cloudevent.CloudEventMessageUtils.ID;
-import static org.springframework.cloud.function.cloudevent.CloudEventMessageUtils.SOURCE;
-import static org.springframework.cloud.function.cloudevent.CloudEventMessageUtils.SPECVERSION;
-import static org.springframework.cloud.function.cloudevent.CloudEventMessageUtils.SUBJECT;
-
-import java.net.URI;
-import java.util.UUID;
-import java.util.function.Function;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.function.cloudevent.CloudEventMessageBuilder;
 import org.springframework.cloud.function.context.message.MessageUtils;
-import org.springframework.cloud.function.web.util.HeaderUtils;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.messaging.Message;
-
-
 import org.springframework.nativex.hint.MethodHint;
 import org.springframework.nativex.hint.TypeHint;
 // Remove when release is ready

@@ -49,7 +49,7 @@ public class SpringCloudEventsApplicationTests {
     ceHeaders.add(SUBJECT, "Convert to UpperCase");
 
     ResponseEntity<String> response = this.rest.exchange(
-        RequestEntity.post(new URI("/uppercase"))
+        RequestEntity.post(new URI("/UppercaseRequestedEvent"))
             .contentType(MediaType.APPLICATION_JSON)
             .headers(ceHeaders)
             .body(input),
@@ -61,6 +61,41 @@ public class SpringCloudEventsApplicationTests {
     assertThat(body, notNullValue());
     Output output = objectMapper.readValue(body,
         Output.class);
+    assertThat(output, notNullValue());
+    assertThat(output.getInput(), equalTo("hello"));
+    assertThat(output.getOperation(), equalTo("Convert to UpperCase"));
+    assertThat(output.getOutput(), equalTo("HELLO"));
+    assertThat(output.getError(), nullValue());
+  }
+
+  @Test
+  public void testUpperCaseRoutingBasedOnType() throws Exception {
+
+    Input input = new Input();
+
+    input.setInput("hello");
+
+    HttpHeaders ceHeaders = new HttpHeaders();
+    ceHeaders.add(SPECVERSION, "1.0");
+    ceHeaders.add(ID, UUID.randomUUID()
+      .toString());
+    ceHeaders.add(TYPE, "UppercaseRequestedEvent");
+    ceHeaders.add(SOURCE, "http://localhost:8080/uppercase");
+    ceHeaders.add(SUBJECT, "Convert to UpperCase");
+
+    ResponseEntity<String> response = this.rest.exchange(
+      RequestEntity.post(new URI("/"))
+        .contentType(MediaType.APPLICATION_JSON)
+        .headers(ceHeaders)
+        .body(input),
+      String.class);
+
+    assertThat(response.getStatusCode()
+      .value(), equalTo(200));
+    String body = response.getBody();
+    assertThat(body, notNullValue());
+    Output output = objectMapper.readValue(body,
+      Output.class);
     assertThat(output, notNullValue());
     assertThat(output.getInput(), equalTo("hello"));
     assertThat(output.getOperation(), equalTo("Convert to UpperCase"));
