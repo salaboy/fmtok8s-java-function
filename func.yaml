@@ -1,0 +1,23 @@
+version: 0.19.0
+name: fmtok8s-java-function
+namespace: ""
+runtime: springboot
+registry: ""
+image: docker.io/salaboy/fmtok8s-java-function:latest
+imageDigest: sha256:b2d7592507ed0d1ce7c3d00b79914c97cbd0a491dd635d0c293e91382e12ba5c
+builder: gcr.io/paketo-buildpacks/builder:base
+builders:
+  default: gcr.io/paketo-buildpacks/builder:base
+buildpacks: []
+volumes: []
+buildEnvs:
+- name: BP_NATIVE_IMAGE
+  value: "true"
+envs: []
+annotations: {}
+options: {}
+labels: []
+healthEndpoints:
+  liveness: /actuator/health
+  readiness: /actuator/health
+created: 2022-02-16T08:45:41.332979Z
