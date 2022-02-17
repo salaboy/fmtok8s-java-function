@@ -90,15 +90,6 @@ export URL=$(kn service describe $(basename $PWD) -ourl)
 
 ### cURL
 
-curl -v "http://localhost:8080/" \
--H "Content-Type:application/json" \
--H "Ce-Id:1" \
--H "Ce-Subject:Uppercase" \
--H "Ce-Source:cloud-event-example" \
--H "Ce-Type:uppercase" \
--H "Ce-Specversion:1.0" \
--d "{\"input\": \"salaboy\"}\""
-
 Using CloudEvents `Ce-Type` routing:
 ```shell script
 curl -v "$URL/" \
@@ -106,19 +97,19 @@ curl -v "$URL/" \
   -H "Ce-Id:1" \
   -H "Ce-Subject:Uppercase" \
   -H "Ce-Source:cloud-event-example" \
-  -H "Ce-Type:uppercase" \
+  -H "Ce-Type:UppercaseRequestedEvent" \
   -H "Ce-Specversion:1.0" \
   -d "{\"input\": \"$(whoami)\"}\""
 ```
 
 Using Path-Based routing:
 ```shell script
-curl -v "$URL/uppercase" \
+curl -v "$URL/UppercaseRequestedEvent" \
   -H "Content-Type:application/json" \
   -H "Ce-Id:1" \
   -H "Ce-Subject:Uppercase" \
   -H "Ce-Source:cloud-event-example" \
-  -H "Ce-Type:my-event" \
+  -H "Ce-Type:UppercaseRequestedEvent" \
   -H "Ce-Specversion:1.0" \
   -d "{\"input\": \"$(whoami)\"}\""
 ```
@@ -132,14 +123,14 @@ http -v "$URL/" \
   Ce-Id:1 \
   Ce-Subject:Uppercase \
   Ce-Source:cloud-event-example \
-  Ce-Type:uppercase \
+  Ce-Type:UppercaseRequestedEvent \
   Ce-Specversion:1.0 \
   input=$(whoami)
 ```
 
 Using Path-Based routing:
 ```shell script
-http -v "$URL/uppercase" \
+http -v "$URL/UppercaseRequestedEvent" \
   Content-Type:application/json \
   Ce-Id:1 \
   Ce-Subject:Uppercase \
