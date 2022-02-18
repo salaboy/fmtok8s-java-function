@@ -102,4 +102,44 @@ public class SpringCloudEventsApplicationTests {
     assertThat(output.getOutput(), equalTo("HELLO"));
     assertThat(output.getError(), nullValue());
   }
+
+  @Test
+  public void testUpperCasedFunction() throws Exception {
+
+    Output output = new Output();
+
+    output.setInput("hello");
+    output.setOutput("HELLO");
+
+    HttpHeaders ceHeaders = new HttpHeaders();
+    ceHeaders.add(SPECVERSION, "1.0");
+    ceHeaders.add(ID, UUID.randomUUID()
+      .toString());
+    ceHeaders.add(TYPE, "UpperCasedEvent");
+    ceHeaders.add(SOURCE, "http://localhost:8080/");
+    ceHeaders.add(SUBJECT, "Improve UpperCased content");
+
+    ResponseEntity<String> response = this.rest.exchange(
+      RequestEntity.post(new URI("/"))
+        .contentType(MediaType.APPLICATION_JSON)
+        .headers(ceHeaders)
+        .body(output),
+      String.class);
+
+    assertThat(response.getStatusCode()
+      .value(), equalTo(200));
+    String type = response.getHeaders().getFirst(TYPE);
+    assertThat(type, notNullValue());
+    assertThat(type, equalTo("UpperCasedImprovedEvent"));
+    String body = response.getBody();
+    assertThat(body, notNullValue());
+    Output outputFromRequest = objectMapper.readValue(body,
+      Output.class);
+    assertThat(outputFromRequest, notNullValue());
+    assertThat(outputFromRequest.getInput(), equalTo("hello"));
+    assertThat(outputFromRequest.getOperation(), equalTo("UpperCased content improved!"));
+    assertThat(outputFromRequest.getOutput(), equalTo("HELLO Improved!"));
+    assertThat(outputFromRequest.getError(), nullValue());
+  }
+  
 }
